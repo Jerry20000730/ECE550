@@ -18,4 +18,4 @@ The overflow detection is achieved by checking the most significant bit (MSB) of
 -  If both the MSB of  `data_operandA` and `data_operendB` is 1, but the MSB of the result is 0, then there is an overflow
 - Similarly, if both MSB if `data_operendA` and `data_operendB` is 0, but the MSB of the result is 1, then there is an overflow.
 
-The logical expression of this can be achieved by $A[31] \ddot B[31] \ddot S[31]' + A[31]' \ddot B[31]' \ddot S[31]$
+The logical expression of this can be achieved by $A[31] \cdot B[31] \cdot S[31]' + A[31]' \cdot B[31]' \cdot S[31]$
