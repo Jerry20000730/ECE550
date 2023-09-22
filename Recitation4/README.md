@@ -1,4 +1,4 @@
-# Recitation 3
+# Recitation 4
 The aim of this recitation is to first creating Moore and Mealy state designs for modulo-5 counter, after that, draw the State Diagram, and be able to differentiate them. Secondly, implement the modulo-5 counter in Quartus using Behavioral Verilog.
 
 ## Tasks
