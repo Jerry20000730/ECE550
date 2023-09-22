@@ -17,6 +17,10 @@ Brief: build a 4-bit Ripple Carry Adder (RCA) in Verilog and test your adder usi
 
 Brief: learn Wallace Tree Multiplier (WTM), build your own 5x5 WTM and test our WTM using testbench
 
+#### Recitation 4 - README link [here](Recitation4/README.md)
+
+Brief: learn how to use moore design and mealy design and implement the modulo-5 counter in behavioural verilog
+
 ## Project checkpoint
 
 #### Project 1 checkpoint - README link [here](Project1/README.md)
