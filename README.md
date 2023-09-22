@@ -19,6 +19,6 @@ Brief: learn Wallace Tree Multiplier (WTM), build your own 5x5 WTM and test our 
 
 ## Project checkpoint
 
-#### Project 1 checkpoint - README link [here](Project1/README)
+#### Project 1 checkpoint - README link [here](Project1/README.md)
 
 Brief: first checkpoint for our processor is to design and simulate an ALU using Verilog that support for addition, subtraction and overflow detection.
