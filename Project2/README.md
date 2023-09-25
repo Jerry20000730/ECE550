@@ -19,7 +19,7 @@ The design for the bitwise AND and OR is pretty straightforward. Both are realiz
 
 The design for logical left shift uses four layer, each with 32 mux 2to1 to choose. The structure of the logical left shift is shown below. On the first layer, the aim is to decide which input to choose (one input of the original 32 bit, and the other re-concatenate one 0 at the front of first 31 bit of the original input). On the second layer, the principle is the same, to decide which input to choose (one input from the former output (32 bit) and another input re-concatenate two 0 at the front of the first 30 bit of the former output) and so on. Each mux's select is connected to the `shiftamt` so that we know how many bits to shift.
 
-![structure of SLL](https://drive.google.com/uc?export=view&id=1aQbNMEY2zLNF1aKQbXZRGvrjBeod0ZU2)
+![structure of SLL](../Resources/SLL_implementation_32bit.jpg)
 
 The design for Arithmetic Right Shift is similar, with the only difference is that the addition of bits to replace the positions at higher bits when shifting to the right needs to be the same as the original MSB (Most Significant Bit). If the original number's MSB is 1, then when it shifts to the right for n bits, we need to add n 1s at the higher bits after the shift.
 
