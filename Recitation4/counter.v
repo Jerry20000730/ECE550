@@ -2,7 +2,7 @@ module counter(
 	input wire clk,
 	input wire reset,
 	input wire input1,
-	output reg [2:0] count,
+	output reg count,
 	output reg [2:0] state
 );
 
@@ -85,27 +85,27 @@ module counter(
 	always @(input1, state_reg) begin
 		case (state_reg)
 			A: begin 
-				count = 3'b000;
+				count = 1'b0;
 				state = A;
 			end
 			B: begin 
-				count = 3'b001;
+				count = 1'b0;
 				state = B;
 			end
 			C: begin
-				count = 3'b010;
+				count = 1'b0;
 				state = C;
 			end
 			D: begin
-				count = 3'b011;
+				count = 1'b0;
 				state = D;
 			end
 			E: begin
-				count = 3'b100;
+				count = 1'b1;
 				state = E;
 			end
 			default: begin
-				count = 3'b000;
+				count = 1'b0;
 				state = A;
 			end
 		endcase

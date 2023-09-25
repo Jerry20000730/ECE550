@@ -23,6 +23,10 @@ Brief: learn how to use moore design and mealy design and implement the modulo-5
 
 ## Project checkpoint
 
-#### Project 1 checkpoint - README link [here](Project1/README.md)
+#### Project checkpoint 1 - README link [here](Project1/README.md)
 
-Brief: first checkpoint for our processor is to design and simulate an ALU using Verilog that support for addition, subtraction and overflow detection.
+Brief: first checkpoint is to design and simulate an ALU using Verilog that support for addition, subtraction and overflow detection.
+
+#### Project checkpoint 2 - README link [here](Project2/README.md)
+
+Brief: second checkpoint is to improve the design of the previously designed ALU to support more functionality, including bitwise AND and bitwise OR, Logical Left Shift and Arithmetic Right Shift.

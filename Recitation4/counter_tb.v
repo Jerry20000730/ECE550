@@ -4,7 +4,7 @@ module counter_tb(); // testbenches take no arguments
 	reg w;
 	reg clock;
 	reg reset;
-	wire [2:0] count;
+	wire count;
 	wire [2:0] state;
 	// prepare any other variables you want
 	counter test_counter(.clk(clock), .reset(reset), .input1(w), .count(count), .state(state));
