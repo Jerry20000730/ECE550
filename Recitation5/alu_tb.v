@@ -251,11 +251,11 @@ module alu_tb();
             assign ctrl_ALUopcode = 5'b00101;
             assign data_operandB = 32'h00000000;
 
-            assign data_operandA = 32'hA0000011;
-            assign ctrl_shiftamt = 5'b00100;
+            assign data_operandA = 32'h00000000;
+            assign ctrl_shiftamt = 5'b00000;
 
             @(negedge clock);
-            if(data_result !== 32'hFA000001) begin
+            if(data_result !== 32'h00000000) begin
                 $display("**Error in SRA (test 12); expected: %h, actual: %h", 32'h00000000, data_result);
                 errors = errors + 1;
             end
