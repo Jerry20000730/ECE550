@@ -62,134 +62,39 @@ A 5-to-32 decoder takes 5 input lines and produces 32 output lines. Here is a tr
 | 11111          | 10000000000000000000000000000000 |
 
 Hence, the logic for each gate is represented as:
+$$out0 = in0' \cdot in1' \cdot in2' \cdot in3' \cdot in4'$$
+$$out1 = in0 \cdot in1' \cdot in2' \cdot in3' \cdot in4'$$
+$$out2 = in0' \cdot in1 \cdot in2' \cdot in3' \cdot in4'$$
+$$out3 = in0 \cdot in1 \cdot in2' \cdot in3' \cdot in4'$$
+$$out4 = in0' \cdot in1' \cdot in2 \cdot in3' \cdot in4'$$
+$$out5 = in0 \cdot in1' \cdot in2 \cdot in3' \cdot in4'$$
+$$out6 = in0' \cdot in1 \cdot in2 \cdot in3' \cdot in4'$$
+$$out7 = in0 \cdot in1 \cdot in2 \cdot in3' \cdot in4'$$
+$$out8 = in0' \cdot in1' \cdot in2' \cdot in3 \cdot in4'$$
+$$out9 = in0 \cdot in1' \cdot in2' \cdot in3 \cdot in4'$$
+$$out10 = in0' \cdot in1 \cdot in2' \cdot in3 \cdot in4'$$
+$$out11 = in0 \cdot in1 \cdot in2' \cdot in3 \cdot in4'$$
+$$out12 = in0' \cdot in1' \cdot in2 \cdot in3 \cdot in4'$$
+$$out13 = in0 \cdot in1' \cdot in2 \cdot in3 \cdot in4'$$
+$$out14 = in0' \cdot in1 \cdot in2 \cdot in3 \cdot in4'$$
+$$out15 = in0 \cdot in1 \cdot in2 \cdot in3 \cdot in4'$$
+$$out16 = in0' \cdot in1' \cdot in2' \cdot in3' \cdot in4$$
+$$out17 = in0 \cdot in1' \cdot in2' \cdot in3' \cdot in4$$
+$$out18 = in0' \cdot in1 \cdot in2' \cdot in3' \cdot in4$$
+$$out19 = in0 \cdot in1 \cdot in2' \cdot in3' \cdot in4$$
+$$out20 = in0' \cdot in1' \cdot in2 \cdot in3' \cdot in4$$
+$$out21 = in0 \cdot in1' \cdot in2 \cdot in3' \cdot in4$$
+$$out22 = in0' \cdot in1 \cdot in2 \cdot in3' \cdot in4$$
+$$out23 = in0 \cdot in1 \cdot in2 \cdot in3' \cdot in4$$
+$$out24 = in0' \cdot in1' \cdot in2' \cdot in3 \cdot in4$$
+$$out25 = in0 \cdot in1' \cdot in2' \cdot in3 \cdot in4$$
+$$out26 = in0' \cdot in1 \cdot in2' \cdot in3 \cdot in4$$
+$$out27 = in0 \cdot in1 \cdot in2' \cdot in3 \cdot in4$$
+$$out28 = in0' \cdot in1' \cdot in2 \cdot in3 \cdot in4$$
+$$out29 = in0 \cdot in1' \cdot in2 \cdot in3 \cdot in4$$
+$$out30 = in0' \cdot in1 \cdot in2 \cdot in3 \cdot in4$$
+$$out31 = in0 \cdot in1 \cdot in2 \cdot in3 \cdot in4$$
 
-- $$
-  out0 = in0' \cdot in1' \cdot in2' \cdot in3' \cdot in4'
-  $$
-
-- $$
-  out1 = in0 \cdot in1' \cdot in2' \cdot in3' \cdot in4'
-  $$
-
-- $$
-  out2 = in0' \cdot in1 \cdot in2' \cdot in3' \cdot in4'
-  $$
-  
-- $$
-  out3 = in0 \cdot in1 \cdot in2' \cdot in3' \cdot in4'
-  $$
-  
-- $$
-  out4 = in0' \cdot in1' \cdot in2 \cdot in3' \cdot in4'
-  $$
-
-- $$
-  out5 = in0 \cdot in1' \cdot in2 \cdot in3' \cdot in4'
-  $$
-  
-- $$
-  out6 = in0' \cdot in1 \cdot in2 \cdot in3' \cdot in4'
-  $$
-  
-- $$
-  out7 = in0 \cdot in1 \cdot in2 \cdot in3' \cdot in4'
-  $$
-
-- $$
-  out8 = in0' \cdot in1' \cdot in2' \cdot in3 \cdot in4'
-  $$
-  
-- $$
-  out9 = in0 \cdot in1' \cdot in2' \cdot in3 \cdot in4'
-  $$
-  
-- $$
-  out10 = in0' \cdot in1 \cdot in2' \cdot in3 \cdot in4'
-  $$
-  
-- $$
-  out11 = in0 \cdot in1 \cdot in2' \cdot in3 \cdot in4'
-  $$
-  
-- $$
-  out12 = in0' \cdot in1' \cdot in2 \cdot in3 \cdot in4'
-  $$
-  
-- $$
-  out13 = in0 \cdot in1' \cdot in2 \cdot in3 \cdot in4'
-  $$
-
-- $$
-  out14 = in0' \cdot in1 \cdot in2 \cdot in3 \cdot in4'
-  $$
-
-- $$
-  out15 = in0 \cdot in1 \cdot in2 \cdot in3 \cdot in4'
-  $$
-  
-- $$
-  out16 = in0' \cdot in1' \cdot in2' \cdot in3' \cdot in4
-  $$
-  
-- $$
-  out17 = in0 \cdot in1' \cdot in2' \cdot in3' \cdot in4
-  $$
-  
-- $$
-  out18 = in0' \cdot in1 \cdot in2' \cdot in3' \cdot in4
-  $$
-  
-- $$
-  out19 = in0 \cdot in1 \cdot in2' \cdot in3' \cdot in4
-  $$
-  
-- $$
-  out20 = in0' \cdot in1' \cdot in2 \cdot in3' \cdot in4
-  $$
-  
-- $$
-  out21 = in0 \cdot in1' \cdot in2 \cdot in3' \cdot in4
-  $$
-  
-- $$
-  out22 = in0' \cdot in1 \cdot in2 \cdot in3' \cdot in4
-  $$
-  
-- $$
-  out23 = in0 \cdot in1 \cdot in2 \cdot in3' \cdot in4
-  $$
-  
-- $$
-  out24 = in0' \cdot in1' \cdot in2' \cdot in3 \cdot in4
-  $$
-  
-- $$
-  out25 = in0 \cdot in1' \cdot in2' \cdot in3 \cdot in4
-  $$
-  
-- $$
-  out26 = in0' \cdot in1 \cdot in2' \cdot in3 \cdot in4
-  $$
-  
-- $$
-  out27 = in0 \cdot in1 \cdot in2' \cdot in3 \cdot in4
-  $$
-  
-- $$
-  out28 = in0' \cdot in1' \cdot in2 \cdot in3 \cdot in4
-  $$
-  
-- $$
-  out29 = in0 \cdot in1' \cdot in2 \cdot in3 \cdot in4
-  $$
-  
-- $$
-  out30 = in0' \cdot in1 \cdot in2 \cdot in3 \cdot in4
-  $$
-
-- $$
-  out31 = in0 \cdot in1 \cdot in2 \cdot in3 \cdot in4
-  $$
 ## Additional self-designed module
 
 1. `and_5input`: It is basically an and gate with 5-bit input. This is to accommodate the design for 5-to-32 decoder because each bit on the output (32 bit) requires the logical calculation (all AND gate for five bit with different logical equation)
