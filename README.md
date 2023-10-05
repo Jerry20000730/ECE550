@@ -11,17 +11,19 @@ Brief: design a NAND gate using Structural Verilog and test the code using testb
 
 #### Recitation 2 - README link [here](Recitation2/README.md)
 
-Brief: build a 4-bit Ripple Carry Adder (RCA) in Verilog and test your adder using waveforms and testbenches
+Brief: build a 4-bit Ripple Carry Adder (RCA) in Verilog and test your adder using waveforms and testbenches.
 
 #### Recitation 3 - README link [here](Recitation3/README.md)
 
-Brief: learn Wallace Tree Multiplier (WTM), build your own 5x5 WTM and test our WTM using testbench
+Brief: learn Wallace Tree Multiplier (WTM), build your own 5x5 WTM and test our WTM using testbench.
 
 #### Recitation 4 - README link [here](Recitation4/README.md)
 
-Brief: learn how to use moore design and mealy design and implement the modulo-5 counter in behavioural verilog
+Brief: learn how to use moore design and mealy design and implement the modulo-5 counter in behavioural verilog.
 
 #### Recitation 5 - README link [here](Recitation5/README.md)
+
+Brief: learn more about designing the ALU functionalities using behavioral verilog instead of structural verilog.
 
 ## Project checkpoint
 
