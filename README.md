@@ -21,6 +21,8 @@ Brief: learn Wallace Tree Multiplier (WTM), build your own 5x5 WTM and test our 
 
 Brief: learn how to use moore design and mealy design and implement the modulo-5 counter in behavioural verilog
 
+#### Recitation 5 - README link [here](Recitation5/README.md)
+
 ## Project checkpoint
 
 #### Project checkpoint 1 - README link [here](Project1/README.md)
@@ -30,3 +32,7 @@ Brief: first checkpoint is to design and simulate an ALU using Verilog that supp
 #### Project checkpoint 2 - README link [here](Project2/README.md)
 
 Brief: second checkpoint is to improve the design of the previously designed ALU to support more functionality, including bitwise AND and bitwise OR, Logical Left Shift and Arithmetic Right Shift.
+
+#### Project checkpoint 3 - README line [here](Project3/README.md)
+
+Brief: third checkpoint is to design and simulate a register file, including 2 read ports, one write ports and 32 registers.
