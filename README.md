@@ -25,6 +25,18 @@ Brief: learn how to use moore design and mealy design and implement the modulo-5
 
 Brief: learn more about designing the ALU functionalities using behavioral verilog instead of structural verilog.
 
+#### Recitation 6 - README link [here](Recitation6/README.md)
+
+Brief: learn how to load your design on reconfigurable hardware (i.e., the FPGA chip on our DE2 board) and run it on it.
+
+#### Recitation 7 - README link [here](Recitation7/README.md)
+
+Brief: learn about PS2 interfaces and controllers, and alter the code so that pressing a key on a PS2 keyboard causes the FPGA board to display the corresponding character on the built-in LCD screen.
+
+#### Recitation 8 - README link [here](Recitation8/README.md)
+
+Brief: learn about VGA interfaces and controllers, practice loading .mif files into their project directory, and alter the code so that the slide switches on the FPGA will be used to control the memory location holding the information for an image to be displayed
+
 ## Project checkpoint
 
 #### Project checkpoint 1 - README link [here](Project1/README.md)
@@ -35,6 +47,10 @@ Brief: first checkpoint is to design and simulate an ALU using Verilog that supp
 
 Brief: second checkpoint is to improve the design of the previously designed ALU to support more functionality, including bitwise AND and bitwise OR, Logical Left Shift and Arithmetic Right Shift.
 
-#### Project checkpoint 3 - README line [here](Project3/README.md)
+#### Project checkpoint 3 - README link [here](Project3/README.md)
 
 Brief: third checkpoint is to design and simulate a register file, including 2 read ports, one write ports and 32 registers.
+
+#### Project checkpoint 4 - README link [here](Project4/README.md)
+
+Brief: fourth checkpoint is to design and implement part of single cycle CPU, and implement some instructions including `add`, `addi`, `sub`, `and`, `or`, `sll`, `sra` 
