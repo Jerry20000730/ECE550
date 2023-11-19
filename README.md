@@ -54,3 +54,6 @@ Brief: third checkpoint is to design and simulate a register file, including 2 r
 #### Project checkpoint 4 - README link [here](Project4/README.md)
 
 Brief: fourth checkpoint is to design and implement part of single cycle CPU, and implement some instructions including `add`, `addi`, `sub`, `and`, `or`, `sll`, `sra` 
+
+#### Project checkpoint 5 - README link [here](Project5/README.md)
+Brief: fifth checkpoint is to design and finish the remaining part of single cycle CPU, and implement `j` type instructions including `j`, `bne`, `jal`, `jr`, `blt`, `bex` and `setx`
