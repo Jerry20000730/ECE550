@@ -1,10 +1,10 @@
-// megafunction wizard: %ROM: 1-PORT%
+// megafunction wizard: %RAM: 1-PORT%
 // GENERATION: STANDARD
 // VERSION: WM1.0
 // MODULE: altsyncram 
 
 // ============================================================
-// File Name: imem.v
+// File Name: dmem.v
 // Megafunction Name(s):
 // 			altsyncram
 //
@@ -34,7 +34,7 @@
 //agreement for further details.
 
 
-//altsyncram ADDRESS_ACLR_A="NONE" CLOCK_ENABLE_INPUT_A="BYPASS" CLOCK_ENABLE_OUTPUT_A="BYPASS" DEVICE_FAMILY="Cyclone IV E" ENABLE_RUNTIME_MOD="NO" INIT_FILE="imem.mif" NUMWORDS_A=4096 OPERATION_MODE="ROM" OUTDATA_ACLR_A="NONE" OUTDATA_REG_A="CLOCK0" WIDTH_A=32 WIDTH_BYTEENA_A=1 WIDTHAD_A=12 address_a clock0 q_a
+//altsyncram CLOCK_ENABLE_INPUT_A="BYPASS" CLOCK_ENABLE_OUTPUT_A="BYPASS" DEVICE_FAMILY="Cyclone IV E" ENABLE_RUNTIME_MOD="NO" NUMWORDS_A=4096 OPERATION_MODE="SINGLE_PORT" OUTDATA_ACLR_A="NONE" OUTDATA_REG_A="CLOCK0" POWER_UP_UNINITIALIZED="FALSE" read_during_write_mode_port_a="NEW_DATA_NO_NBE_READ" WIDTH_A=32 WIDTH_BYTEENA_A=1 WIDTHAD_A=12 address_a clock0 data_a q_a wren_a
 //VERSION_BEGIN 17.0 cbx_altera_syncram_nd_impl 2017:04:25:18:06:29:SJ cbx_altsyncram 2017:04:25:18:06:29:SJ cbx_cycloneii 2017:04:25:18:06:29:SJ cbx_lpm_add_sub 2017:04:25:18:06:29:SJ cbx_lpm_compare 2017:04:25:18:06:29:SJ cbx_lpm_decode 2017:04:25:18:06:29:SJ cbx_lpm_mux 2017:04:25:18:06:30:SJ cbx_mgl 2017:04:25:18:09:28:SJ cbx_nadder 2017:04:25:18:06:30:SJ cbx_stratix 2017:04:25:18:06:30:SJ cbx_stratixii 2017:04:25:18:06:30:SJ cbx_stratixiii 2017:04:25:18:06:30:SJ cbx_stratixv 2017:04:25:18:06:30:SJ cbx_util_mgl 2017:04:25:18:06:30:SJ  VERSION_END
 // synthesis VERILOG_INPUT_VERSION VERILOG_2001
 // altera message_off 10463
@@ -45,18 +45,24 @@
 `timescale 1 ps / 1 ps
 //synopsys translate_on
 (* ALTERA_ATTRIBUTE = {"OPTIMIZE_POWER_DURING_SYNTHESIS=NORMAL_COMPILATION"} *)
-module  imem_altsyncram
+module  dmem_altsyncram
 	( 
 	address_a,
 	clock0,
-	q_a) /* synthesis synthesis_clearbox=1 */;
+	data_a,
+	q_a,
+	wren_a) /* synthesis synthesis_clearbox=1 */;
 	input   [11:0]  address_a;
 	input   clock0;
+	input   [31:0]  data_a;
 	output   [31:0]  q_a;
+	input   wren_a;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
 	tri1   clock0;
+	tri1   [31:0]  data_a;
+	tri0   wren_a;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_on
 `endif
@@ -99,8 +105,10 @@ module  imem_altsyncram
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[0]}),
 	.portadataout(wire_ram_block1a_0portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -115,8 +123,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -137,14 +143,11 @@ module  imem_altsyncram
 		ram_block1a_0.clk0_input_clock_enable = "none",
 		ram_block1a_0.clk0_output_clock_enable = "none",
 		ram_block1a_0.connectivity_checking = "OFF",
-		ram_block1a_0.init_file = "imem.mif",
-		ram_block1a_0.init_file_layout = "port_a",
 		ram_block1a_0.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_0.mem_init0 = 2048'h0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000108001A,
-		ram_block1a_0.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_0.operation_mode = "rom",
-		ram_block1a_0.port_a_address_clear = "none",
+		ram_block1a_0.operation_mode = "single_port",
 		ram_block1a_0.port_a_address_width = 12,
+		ram_block1a_0.port_a_byte_enable_mask_width = 1,
+		ram_block1a_0.port_a_byte_size = 1,
 		ram_block1a_0.port_a_data_out_clear = "none",
 		ram_block1a_0.port_a_data_out_clock = "clock0",
 		ram_block1a_0.port_a_data_width = 1,
@@ -153,14 +156,18 @@ module  imem_altsyncram
 		ram_block1a_0.port_a_last_address = 4095,
 		ram_block1a_0.port_a_logical_ram_depth = 4096,
 		ram_block1a_0.port_a_logical_ram_width = 32,
+		ram_block1a_0.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_0.power_up_uninitialized = "false",
 		ram_block1a_0.ram_block_type = "AUTO",
 		ram_block1a_0.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_1
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[1]}),
 	.portadataout(wire_ram_block1a_1portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -175,8 +182,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -197,14 +202,11 @@ module  imem_altsyncram
 		ram_block1a_1.clk0_input_clock_enable = "none",
 		ram_block1a_1.clk0_output_clock_enable = "none",
 		ram_block1a_1.connectivity_checking = "OFF",
-		ram_block1a_1.init_file = "imem.mif",
-		ram_block1a_1.init_file_layout = "port_a",
 		ram_block1a_1.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_1.mem_init0 = 2048'h0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000210082A,
-		ram_block1a_1.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_1.operation_mode = "rom",
-		ram_block1a_1.port_a_address_clear = "none",
+		ram_block1a_1.operation_mode = "single_port",
 		ram_block1a_1.port_a_address_width = 12,
+		ram_block1a_1.port_a_byte_enable_mask_width = 1,
+		ram_block1a_1.port_a_byte_size = 1,
 		ram_block1a_1.port_a_data_out_clear = "none",
 		ram_block1a_1.port_a_data_out_clock = "clock0",
 		ram_block1a_1.port_a_data_width = 1,
@@ -213,14 +215,18 @@ module  imem_altsyncram
 		ram_block1a_1.port_a_last_address = 4095,
 		ram_block1a_1.port_a_logical_ram_depth = 4096,
 		ram_block1a_1.port_a_logical_ram_width = 32,
+		ram_block1a_1.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_1.power_up_uninitialized = "false",
 		ram_block1a_1.ram_block_type = "AUTO",
 		ram_block1a_1.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_2
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[2]}),
 	.portadataout(wire_ram_block1a_2portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -235,8 +241,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -257,14 +261,11 @@ module  imem_altsyncram
 		ram_block1a_2.clk0_input_clock_enable = "none",
 		ram_block1a_2.clk0_output_clock_enable = "none",
 		ram_block1a_2.connectivity_checking = "OFF",
-		ram_block1a_2.init_file = "imem.mif",
-		ram_block1a_2.init_file_layout = "port_a",
 		ram_block1a_2.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_2.mem_init0 = 2048'h0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003005458A,
-		ram_block1a_2.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_2.operation_mode = "rom",
-		ram_block1a_2.port_a_address_clear = "none",
+		ram_block1a_2.operation_mode = "single_port",
 		ram_block1a_2.port_a_address_width = 12,
+		ram_block1a_2.port_a_byte_enable_mask_width = 1,
+		ram_block1a_2.port_a_byte_size = 1,
 		ram_block1a_2.port_a_data_out_clear = "none",
 		ram_block1a_2.port_a_data_out_clock = "clock0",
 		ram_block1a_2.port_a_data_width = 1,
@@ -273,14 +274,18 @@ module  imem_altsyncram
 		ram_block1a_2.port_a_last_address = 4095,
 		ram_block1a_2.port_a_logical_ram_depth = 4096,
 		ram_block1a_2.port_a_logical_ram_width = 32,
+		ram_block1a_2.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_2.power_up_uninitialized = "false",
 		ram_block1a_2.ram_block_type = "AUTO",
 		ram_block1a_2.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_3
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[3]}),
 	.portadataout(wire_ram_block1a_3portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -295,8 +300,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -317,14 +320,11 @@ module  imem_altsyncram
 		ram_block1a_3.clk0_input_clock_enable = "none",
 		ram_block1a_3.clk0_output_clock_enable = "none",
 		ram_block1a_3.connectivity_checking = "OFF",
-		ram_block1a_3.init_file = "imem.mif",
-		ram_block1a_3.init_file_layout = "port_a",
 		ram_block1a_3.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_3.mem_init0 = 2048'h000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000182186AA,
-		ram_block1a_3.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_3.operation_mode = "rom",
-		ram_block1a_3.port_a_address_clear = "none",
+		ram_block1a_3.operation_mode = "single_port",
 		ram_block1a_3.port_a_address_width = 12,
+		ram_block1a_3.port_a_byte_enable_mask_width = 1,
+		ram_block1a_3.port_a_byte_size = 1,
 		ram_block1a_3.port_a_data_out_clear = "none",
 		ram_block1a_3.port_a_data_out_clock = "clock0",
 		ram_block1a_3.port_a_data_width = 1,
@@ -333,14 +333,18 @@ module  imem_altsyncram
 		ram_block1a_3.port_a_last_address = 4095,
 		ram_block1a_3.port_a_logical_ram_depth = 4096,
 		ram_block1a_3.port_a_logical_ram_width = 32,
+		ram_block1a_3.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_3.power_up_uninitialized = "false",
 		ram_block1a_3.ram_block_type = "AUTO",
 		ram_block1a_3.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_4
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[4]}),
 	.portadataout(wire_ram_block1a_4portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -355,8 +359,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -377,14 +379,11 @@ module  imem_altsyncram
 		ram_block1a_4.clk0_input_clock_enable = "none",
 		ram_block1a_4.clk0_output_clock_enable = "none",
 		ram_block1a_4.connectivity_checking = "OFF",
-		ram_block1a_4.init_file = "imem.mif",
-		ram_block1a_4.init_file_layout = "port_a",
 		ram_block1a_4.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_4.mem_init0 = 2048'h000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200600CE,
-		ram_block1a_4.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_4.operation_mode = "rom",
-		ram_block1a_4.port_a_address_clear = "none",
+		ram_block1a_4.operation_mode = "single_port",
 		ram_block1a_4.port_a_address_width = 12,
+		ram_block1a_4.port_a_byte_enable_mask_width = 1,
+		ram_block1a_4.port_a_byte_size = 1,
 		ram_block1a_4.port_a_data_out_clear = "none",
 		ram_block1a_4.port_a_data_out_clock = "clock0",
 		ram_block1a_4.port_a_data_width = 1,
@@ -393,14 +392,18 @@ module  imem_altsyncram
 		ram_block1a_4.port_a_last_address = 4095,
 		ram_block1a_4.port_a_logical_ram_depth = 4096,
 		ram_block1a_4.port_a_logical_ram_width = 32,
+		ram_block1a_4.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_4.power_up_uninitialized = "false",
 		ram_block1a_4.ram_block_type = "AUTO",
 		ram_block1a_4.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_5
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[5]}),
 	.portadataout(wire_ram_block1a_5portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -415,8 +418,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -437,14 +438,11 @@ module  imem_altsyncram
 		ram_block1a_5.clk0_input_clock_enable = "none",
 		ram_block1a_5.clk0_output_clock_enable = "none",
 		ram_block1a_5.connectivity_checking = "OFF",
-		ram_block1a_5.init_file = "imem.mif",
-		ram_block1a_5.init_file_layout = "port_a",
 		ram_block1a_5.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_5.mem_init0 = 2048'h0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000A,
-		ram_block1a_5.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_5.operation_mode = "rom",
-		ram_block1a_5.port_a_address_clear = "none",
+		ram_block1a_5.operation_mode = "single_port",
 		ram_block1a_5.port_a_address_width = 12,
+		ram_block1a_5.port_a_byte_enable_mask_width = 1,
+		ram_block1a_5.port_a_byte_size = 1,
 		ram_block1a_5.port_a_data_out_clear = "none",
 		ram_block1a_5.port_a_data_out_clock = "clock0",
 		ram_block1a_5.port_a_data_width = 1,
@@ -453,14 +451,18 @@ module  imem_altsyncram
 		ram_block1a_5.port_a_last_address = 4095,
 		ram_block1a_5.port_a_logical_ram_depth = 4096,
 		ram_block1a_5.port_a_logical_ram_width = 32,
+		ram_block1a_5.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_5.power_up_uninitialized = "false",
 		ram_block1a_5.ram_block_type = "AUTO",
 		ram_block1a_5.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_6
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[6]}),
 	.portadataout(wire_ram_block1a_6portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -475,8 +477,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -497,14 +497,11 @@ module  imem_altsyncram
 		ram_block1a_6.clk0_input_clock_enable = "none",
 		ram_block1a_6.clk0_output_clock_enable = "none",
 		ram_block1a_6.connectivity_checking = "OFF",
-		ram_block1a_6.init_file = "imem.mif",
-		ram_block1a_6.init_file_layout = "port_a",
 		ram_block1a_6.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_6.mem_init0 = 2048'h0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000A,
-		ram_block1a_6.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_6.operation_mode = "rom",
-		ram_block1a_6.port_a_address_clear = "none",
+		ram_block1a_6.operation_mode = "single_port",
 		ram_block1a_6.port_a_address_width = 12,
+		ram_block1a_6.port_a_byte_enable_mask_width = 1,
+		ram_block1a_6.port_a_byte_size = 1,
 		ram_block1a_6.port_a_data_out_clear = "none",
 		ram_block1a_6.port_a_data_out_clock = "clock0",
 		ram_block1a_6.port_a_data_width = 1,
@@ -513,14 +510,18 @@ module  imem_altsyncram
 		ram_block1a_6.port_a_last_address = 4095,
 		ram_block1a_6.port_a_logical_ram_depth = 4096,
 		ram_block1a_6.port_a_logical_ram_width = 32,
+		ram_block1a_6.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_6.power_up_uninitialized = "false",
 		ram_block1a_6.ram_block_type = "AUTO",
 		ram_block1a_6.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_7
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[7]}),
 	.portadataout(wire_ram_block1a_7portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -535,8 +536,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -557,14 +556,11 @@ module  imem_altsyncram
 		ram_block1a_7.clk0_input_clock_enable = "none",
 		ram_block1a_7.clk0_output_clock_enable = "none",
 		ram_block1a_7.connectivity_checking = "OFF",
-		ram_block1a_7.init_file = "imem.mif",
-		ram_block1a_7.init_file_layout = "port_a",
 		ram_block1a_7.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_7.mem_init0 = 2048'h000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000202600CE,
-		ram_block1a_7.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_7.operation_mode = "rom",
-		ram_block1a_7.port_a_address_clear = "none",
+		ram_block1a_7.operation_mode = "single_port",
 		ram_block1a_7.port_a_address_width = 12,
+		ram_block1a_7.port_a_byte_enable_mask_width = 1,
+		ram_block1a_7.port_a_byte_size = 1,
 		ram_block1a_7.port_a_data_out_clear = "none",
 		ram_block1a_7.port_a_data_out_clock = "clock0",
 		ram_block1a_7.port_a_data_width = 1,
@@ -573,14 +569,18 @@ module  imem_altsyncram
 		ram_block1a_7.port_a_last_address = 4095,
 		ram_block1a_7.port_a_logical_ram_depth = 4096,
 		ram_block1a_7.port_a_logical_ram_width = 32,
+		ram_block1a_7.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_7.power_up_uninitialized = "false",
 		ram_block1a_7.ram_block_type = "AUTO",
 		ram_block1a_7.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_8
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[8]}),
 	.portadataout(wire_ram_block1a_8portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -595,8 +595,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -617,14 +615,11 @@ module  imem_altsyncram
 		ram_block1a_8.clk0_input_clock_enable = "none",
 		ram_block1a_8.clk0_output_clock_enable = "none",
 		ram_block1a_8.connectivity_checking = "OFF",
-		ram_block1a_8.init_file = "imem.mif",
-		ram_block1a_8.init_file_layout = "port_a",
 		ram_block1a_8.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_8.mem_init0 = 2048'h000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000CE,
-		ram_block1a_8.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_8.operation_mode = "rom",
-		ram_block1a_8.port_a_address_clear = "none",
+		ram_block1a_8.operation_mode = "single_port",
 		ram_block1a_8.port_a_address_width = 12,
+		ram_block1a_8.port_a_byte_enable_mask_width = 1,
+		ram_block1a_8.port_a_byte_size = 1,
 		ram_block1a_8.port_a_data_out_clear = "none",
 		ram_block1a_8.port_a_data_out_clock = "clock0",
 		ram_block1a_8.port_a_data_width = 1,
@@ -633,14 +628,18 @@ module  imem_altsyncram
 		ram_block1a_8.port_a_last_address = 4095,
 		ram_block1a_8.port_a_logical_ram_depth = 4096,
 		ram_block1a_8.port_a_logical_ram_width = 32,
+		ram_block1a_8.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_8.power_up_uninitialized = "false",
 		ram_block1a_8.ram_block_type = "AUTO",
 		ram_block1a_8.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_9
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[9]}),
 	.portadataout(wire_ram_block1a_9portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -655,8 +654,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -677,14 +674,11 @@ module  imem_altsyncram
 		ram_block1a_9.clk0_input_clock_enable = "none",
 		ram_block1a_9.clk0_output_clock_enable = "none",
 		ram_block1a_9.connectivity_checking = "OFF",
-		ram_block1a_9.init_file = "imem.mif",
-		ram_block1a_9.init_file_layout = "port_a",
 		ram_block1a_9.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_9.mem_init0 = 2048'h000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000CE,
-		ram_block1a_9.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_9.operation_mode = "rom",
-		ram_block1a_9.port_a_address_clear = "none",
+		ram_block1a_9.operation_mode = "single_port",
 		ram_block1a_9.port_a_address_width = 12,
+		ram_block1a_9.port_a_byte_enable_mask_width = 1,
+		ram_block1a_9.port_a_byte_size = 1,
 		ram_block1a_9.port_a_data_out_clear = "none",
 		ram_block1a_9.port_a_data_out_clock = "clock0",
 		ram_block1a_9.port_a_data_width = 1,
@@ -693,14 +687,18 @@ module  imem_altsyncram
 		ram_block1a_9.port_a_last_address = 4095,
 		ram_block1a_9.port_a_logical_ram_depth = 4096,
 		ram_block1a_9.port_a_logical_ram_width = 32,
+		ram_block1a_9.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_9.power_up_uninitialized = "false",
 		ram_block1a_9.ram_block_type = "AUTO",
 		ram_block1a_9.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_10
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[10]}),
 	.portadataout(wire_ram_block1a_10portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -715,8 +713,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -737,14 +733,11 @@ module  imem_altsyncram
 		ram_block1a_10.clk0_input_clock_enable = "none",
 		ram_block1a_10.clk0_output_clock_enable = "none",
 		ram_block1a_10.connectivity_checking = "OFF",
-		ram_block1a_10.init_file = "imem.mif",
-		ram_block1a_10.init_file_layout = "port_a",
 		ram_block1a_10.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_10.mem_init0 = 2048'h000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000CE,
-		ram_block1a_10.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_10.operation_mode = "rom",
-		ram_block1a_10.port_a_address_clear = "none",
+		ram_block1a_10.operation_mode = "single_port",
 		ram_block1a_10.port_a_address_width = 12,
+		ram_block1a_10.port_a_byte_enable_mask_width = 1,
+		ram_block1a_10.port_a_byte_size = 1,
 		ram_block1a_10.port_a_data_out_clear = "none",
 		ram_block1a_10.port_a_data_out_clock = "clock0",
 		ram_block1a_10.port_a_data_width = 1,
@@ -753,14 +746,18 @@ module  imem_altsyncram
 		ram_block1a_10.port_a_last_address = 4095,
 		ram_block1a_10.port_a_logical_ram_depth = 4096,
 		ram_block1a_10.port_a_logical_ram_width = 32,
+		ram_block1a_10.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_10.power_up_uninitialized = "false",
 		ram_block1a_10.ram_block_type = "AUTO",
 		ram_block1a_10.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_11
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[11]}),
 	.portadataout(wire_ram_block1a_11portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -775,8 +772,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -797,14 +792,11 @@ module  imem_altsyncram
 		ram_block1a_11.clk0_input_clock_enable = "none",
 		ram_block1a_11.clk0_output_clock_enable = "none",
 		ram_block1a_11.connectivity_checking = "OFF",
-		ram_block1a_11.init_file = "imem.mif",
-		ram_block1a_11.init_file_layout = "port_a",
 		ram_block1a_11.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_11.mem_init0 = 2048'h000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000CA,
-		ram_block1a_11.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_11.operation_mode = "rom",
-		ram_block1a_11.port_a_address_clear = "none",
+		ram_block1a_11.operation_mode = "single_port",
 		ram_block1a_11.port_a_address_width = 12,
+		ram_block1a_11.port_a_byte_enable_mask_width = 1,
+		ram_block1a_11.port_a_byte_size = 1,
 		ram_block1a_11.port_a_data_out_clear = "none",
 		ram_block1a_11.port_a_data_out_clock = "clock0",
 		ram_block1a_11.port_a_data_width = 1,
@@ -813,14 +805,18 @@ module  imem_altsyncram
 		ram_block1a_11.port_a_last_address = 4095,
 		ram_block1a_11.port_a_logical_ram_depth = 4096,
 		ram_block1a_11.port_a_logical_ram_width = 32,
+		ram_block1a_11.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_11.power_up_uninitialized = "false",
 		ram_block1a_11.ram_block_type = "AUTO",
 		ram_block1a_11.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_12
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[12]}),
 	.portadataout(wire_ram_block1a_12portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -835,8 +831,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -857,14 +851,11 @@ module  imem_altsyncram
 		ram_block1a_12.clk0_input_clock_enable = "none",
 		ram_block1a_12.clk0_output_clock_enable = "none",
 		ram_block1a_12.connectivity_checking = "OFF",
-		ram_block1a_12.init_file = "imem.mif",
-		ram_block1a_12.init_file_layout = "port_a",
 		ram_block1a_12.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_12.mem_init0 = 2048'h0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001A18A,
-		ram_block1a_12.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_12.operation_mode = "rom",
-		ram_block1a_12.port_a_address_clear = "none",
+		ram_block1a_12.operation_mode = "single_port",
 		ram_block1a_12.port_a_address_width = 12,
+		ram_block1a_12.port_a_byte_enable_mask_width = 1,
+		ram_block1a_12.port_a_byte_size = 1,
 		ram_block1a_12.port_a_data_out_clear = "none",
 		ram_block1a_12.port_a_data_out_clock = "clock0",
 		ram_block1a_12.port_a_data_width = 1,
@@ -873,14 +864,18 @@ module  imem_altsyncram
 		ram_block1a_12.port_a_last_address = 4095,
 		ram_block1a_12.port_a_logical_ram_depth = 4096,
 		ram_block1a_12.port_a_logical_ram_width = 32,
+		ram_block1a_12.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_12.power_up_uninitialized = "false",
 		ram_block1a_12.ram_block_type = "AUTO",
 		ram_block1a_12.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_13
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[13]}),
 	.portadataout(wire_ram_block1a_13portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -895,8 +890,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -917,14 +910,11 @@ module  imem_altsyncram
 		ram_block1a_13.clk0_input_clock_enable = "none",
 		ram_block1a_13.clk0_output_clock_enable = "none",
 		ram_block1a_13.connectivity_checking = "OFF",
-		ram_block1a_13.init_file = "imem.mif",
-		ram_block1a_13.init_file_layout = "port_a",
 		ram_block1a_13.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_13.mem_init0 = 2048'h0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001078A,
-		ram_block1a_13.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_13.operation_mode = "rom",
-		ram_block1a_13.port_a_address_clear = "none",
+		ram_block1a_13.operation_mode = "single_port",
 		ram_block1a_13.port_a_address_width = 12,
+		ram_block1a_13.port_a_byte_enable_mask_width = 1,
+		ram_block1a_13.port_a_byte_size = 1,
 		ram_block1a_13.port_a_data_out_clear = "none",
 		ram_block1a_13.port_a_data_out_clock = "clock0",
 		ram_block1a_13.port_a_data_width = 1,
@@ -933,14 +923,18 @@ module  imem_altsyncram
 		ram_block1a_13.port_a_last_address = 4095,
 		ram_block1a_13.port_a_logical_ram_depth = 4096,
 		ram_block1a_13.port_a_logical_ram_width = 32,
+		ram_block1a_13.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_13.power_up_uninitialized = "false",
 		ram_block1a_13.ram_block_type = "AUTO",
 		ram_block1a_13.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_14
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[14]}),
 	.portadataout(wire_ram_block1a_14portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -955,8 +949,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -977,14 +969,11 @@ module  imem_altsyncram
 		ram_block1a_14.clk0_input_clock_enable = "none",
 		ram_block1a_14.clk0_output_clock_enable = "none",
 		ram_block1a_14.connectivity_checking = "OFF",
-		ram_block1a_14.init_file = "imem.mif",
-		ram_block1a_14.init_file_layout = "port_a",
 		ram_block1a_14.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_14.mem_init0 = 2048'h0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001801F08A,
-		ram_block1a_14.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_14.operation_mode = "rom",
-		ram_block1a_14.port_a_address_clear = "none",
+		ram_block1a_14.operation_mode = "single_port",
 		ram_block1a_14.port_a_address_width = 12,
+		ram_block1a_14.port_a_byte_enable_mask_width = 1,
+		ram_block1a_14.port_a_byte_size = 1,
 		ram_block1a_14.port_a_data_out_clear = "none",
 		ram_block1a_14.port_a_data_out_clock = "clock0",
 		ram_block1a_14.port_a_data_width = 1,
@@ -993,14 +982,18 @@ module  imem_altsyncram
 		ram_block1a_14.port_a_last_address = 4095,
 		ram_block1a_14.port_a_logical_ram_depth = 4096,
 		ram_block1a_14.port_a_logical_ram_width = 32,
+		ram_block1a_14.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_14.power_up_uninitialized = "false",
 		ram_block1a_14.ram_block_type = "AUTO",
 		ram_block1a_14.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_15
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[15]}),
 	.portadataout(wire_ram_block1a_15portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1015,8 +1008,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1037,14 +1028,11 @@ module  imem_altsyncram
 		ram_block1a_15.clk0_input_clock_enable = "none",
 		ram_block1a_15.clk0_output_clock_enable = "none",
 		ram_block1a_15.connectivity_checking = "OFF",
-		ram_block1a_15.init_file = "imem.mif",
-		ram_block1a_15.init_file_layout = "port_a",
 		ram_block1a_15.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_15.mem_init0 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000082,
-		ram_block1a_15.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_15.operation_mode = "rom",
-		ram_block1a_15.port_a_address_clear = "none",
+		ram_block1a_15.operation_mode = "single_port",
 		ram_block1a_15.port_a_address_width = 12,
+		ram_block1a_15.port_a_byte_enable_mask_width = 1,
+		ram_block1a_15.port_a_byte_size = 1,
 		ram_block1a_15.port_a_data_out_clear = "none",
 		ram_block1a_15.port_a_data_out_clock = "clock0",
 		ram_block1a_15.port_a_data_width = 1,
@@ -1053,14 +1041,18 @@ module  imem_altsyncram
 		ram_block1a_15.port_a_last_address = 4095,
 		ram_block1a_15.port_a_logical_ram_depth = 4096,
 		ram_block1a_15.port_a_logical_ram_width = 32,
+		ram_block1a_15.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_15.power_up_uninitialized = "false",
 		ram_block1a_15.ram_block_type = "AUTO",
 		ram_block1a_15.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_16
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[16]}),
 	.portadataout(wire_ram_block1a_16portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1075,8 +1067,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1097,14 +1087,11 @@ module  imem_altsyncram
 		ram_block1a_16.clk0_input_clock_enable = "none",
 		ram_block1a_16.clk0_output_clock_enable = "none",
 		ram_block1a_16.connectivity_checking = "OFF",
-		ram_block1a_16.init_file = "imem.mif",
-		ram_block1a_16.init_file_layout = "port_a",
 		ram_block1a_16.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_16.mem_init0 = 2048'h0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001801B080,
-		ram_block1a_16.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_16.operation_mode = "rom",
-		ram_block1a_16.port_a_address_clear = "none",
+		ram_block1a_16.operation_mode = "single_port",
 		ram_block1a_16.port_a_address_width = 12,
+		ram_block1a_16.port_a_byte_enable_mask_width = 1,
+		ram_block1a_16.port_a_byte_size = 1,
 		ram_block1a_16.port_a_data_out_clear = "none",
 		ram_block1a_16.port_a_data_out_clock = "clock0",
 		ram_block1a_16.port_a_data_width = 1,
@@ -1113,14 +1100,18 @@ module  imem_altsyncram
 		ram_block1a_16.port_a_last_address = 4095,
 		ram_block1a_16.port_a_logical_ram_depth = 4096,
 		ram_block1a_16.port_a_logical_ram_width = 32,
+		ram_block1a_16.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_16.power_up_uninitialized = "false",
 		ram_block1a_16.ram_block_type = "AUTO",
 		ram_block1a_16.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_17
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[17]}),
 	.portadataout(wire_ram_block1a_17portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1135,8 +1126,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1157,14 +1146,11 @@ module  imem_altsyncram
 		ram_block1a_17.clk0_input_clock_enable = "none",
 		ram_block1a_17.clk0_output_clock_enable = "none",
 		ram_block1a_17.connectivity_checking = "OFF",
-		ram_block1a_17.init_file = "imem.mif",
-		ram_block1a_17.init_file_layout = "port_a",
 		ram_block1a_17.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_17.mem_init0 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004C62724,
-		ram_block1a_17.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_17.operation_mode = "rom",
-		ram_block1a_17.port_a_address_clear = "none",
+		ram_block1a_17.operation_mode = "single_port",
 		ram_block1a_17.port_a_address_width = 12,
+		ram_block1a_17.port_a_byte_enable_mask_width = 1,
+		ram_block1a_17.port_a_byte_size = 1,
 		ram_block1a_17.port_a_data_out_clear = "none",
 		ram_block1a_17.port_a_data_out_clock = "clock0",
 		ram_block1a_17.port_a_data_width = 1,
@@ -1173,14 +1159,18 @@ module  imem_altsyncram
 		ram_block1a_17.port_a_last_address = 4095,
 		ram_block1a_17.port_a_logical_ram_depth = 4096,
 		ram_block1a_17.port_a_logical_ram_width = 32,
+		ram_block1a_17.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_17.power_up_uninitialized = "false",
 		ram_block1a_17.ram_block_type = "AUTO",
 		ram_block1a_17.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_18
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[18]}),
 	.portadataout(wire_ram_block1a_18portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1195,8 +1185,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1217,14 +1205,11 @@ module  imem_altsyncram
 		ram_block1a_18.clk0_input_clock_enable = "none",
 		ram_block1a_18.clk0_output_clock_enable = "none",
 		ram_block1a_18.connectivity_checking = "OFF",
-		ram_block1a_18.init_file = "imem.mif",
-		ram_block1a_18.init_file_layout = "port_a",
 		ram_block1a_18.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_18.mem_init0 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004C2A028,
-		ram_block1a_18.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_18.operation_mode = "rom",
-		ram_block1a_18.port_a_address_clear = "none",
+		ram_block1a_18.operation_mode = "single_port",
 		ram_block1a_18.port_a_address_width = 12,
+		ram_block1a_18.port_a_byte_enable_mask_width = 1,
+		ram_block1a_18.port_a_byte_size = 1,
 		ram_block1a_18.port_a_data_out_clear = "none",
 		ram_block1a_18.port_a_data_out_clock = "clock0",
 		ram_block1a_18.port_a_data_width = 1,
@@ -1233,14 +1218,18 @@ module  imem_altsyncram
 		ram_block1a_18.port_a_last_address = 4095,
 		ram_block1a_18.port_a_logical_ram_depth = 4096,
 		ram_block1a_18.port_a_logical_ram_width = 32,
+		ram_block1a_18.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_18.power_up_uninitialized = "false",
 		ram_block1a_18.ram_block_type = "AUTO",
 		ram_block1a_18.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_19
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[19]}),
 	.portadataout(wire_ram_block1a_19portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1255,8 +1244,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1277,14 +1264,11 @@ module  imem_altsyncram
 		ram_block1a_19.clk0_input_clock_enable = "none",
 		ram_block1a_19.clk0_output_clock_enable = "none",
 		ram_block1a_19.connectivity_checking = "OFF",
-		ram_block1a_19.init_file = "imem.mif",
-		ram_block1a_19.init_file_layout = "port_a",
 		ram_block1a_19.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_19.mem_init0 = 2048'h0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003803D040,
-		ram_block1a_19.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_19.operation_mode = "rom",
-		ram_block1a_19.port_a_address_clear = "none",
+		ram_block1a_19.operation_mode = "single_port",
 		ram_block1a_19.port_a_address_width = 12,
+		ram_block1a_19.port_a_byte_enable_mask_width = 1,
+		ram_block1a_19.port_a_byte_size = 1,
 		ram_block1a_19.port_a_data_out_clear = "none",
 		ram_block1a_19.port_a_data_out_clock = "clock0",
 		ram_block1a_19.port_a_data_width = 1,
@@ -1293,14 +1277,18 @@ module  imem_altsyncram
 		ram_block1a_19.port_a_last_address = 4095,
 		ram_block1a_19.port_a_logical_ram_depth = 4096,
 		ram_block1a_19.port_a_logical_ram_width = 32,
+		ram_block1a_19.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_19.power_up_uninitialized = "false",
 		ram_block1a_19.ram_block_type = "AUTO",
 		ram_block1a_19.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_20
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[20]}),
 	.portadataout(wire_ram_block1a_20portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1315,8 +1303,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1337,14 +1323,11 @@ module  imem_altsyncram
 		ram_block1a_20.clk0_input_clock_enable = "none",
 		ram_block1a_20.clk0_output_clock_enable = "none",
 		ram_block1a_20.connectivity_checking = "OFF",
-		ram_block1a_20.init_file = "imem.mif",
-		ram_block1a_20.init_file_layout = "port_a",
 		ram_block1a_20.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_20.mem_init0 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004C40000,
-		ram_block1a_20.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_20.operation_mode = "rom",
-		ram_block1a_20.port_a_address_clear = "none",
+		ram_block1a_20.operation_mode = "single_port",
 		ram_block1a_20.port_a_address_width = 12,
+		ram_block1a_20.port_a_byte_enable_mask_width = 1,
+		ram_block1a_20.port_a_byte_size = 1,
 		ram_block1a_20.port_a_data_out_clear = "none",
 		ram_block1a_20.port_a_data_out_clock = "clock0",
 		ram_block1a_20.port_a_data_width = 1,
@@ -1353,14 +1336,18 @@ module  imem_altsyncram
 		ram_block1a_20.port_a_last_address = 4095,
 		ram_block1a_20.port_a_logical_ram_depth = 4096,
 		ram_block1a_20.port_a_logical_ram_width = 32,
+		ram_block1a_20.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_20.power_up_uninitialized = "false",
 		ram_block1a_20.ram_block_type = "AUTO",
 		ram_block1a_20.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_21
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[21]}),
 	.portadataout(wire_ram_block1a_21portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1375,8 +1362,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1397,14 +1382,11 @@ module  imem_altsyncram
 		ram_block1a_21.clk0_input_clock_enable = "none",
 		ram_block1a_21.clk0_output_clock_enable = "none",
 		ram_block1a_21.connectivity_checking = "OFF",
-		ram_block1a_21.init_file = "imem.mif",
-		ram_block1a_21.init_file_layout = "port_a",
 		ram_block1a_21.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_21.mem_init0 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004C7C000,
-		ram_block1a_21.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_21.operation_mode = "rom",
-		ram_block1a_21.port_a_address_clear = "none",
+		ram_block1a_21.operation_mode = "single_port",
 		ram_block1a_21.port_a_address_width = 12,
+		ram_block1a_21.port_a_byte_enable_mask_width = 1,
+		ram_block1a_21.port_a_byte_size = 1,
 		ram_block1a_21.port_a_data_out_clear = "none",
 		ram_block1a_21.port_a_data_out_clock = "clock0",
 		ram_block1a_21.port_a_data_width = 1,
@@ -1413,14 +1395,18 @@ module  imem_altsyncram
 		ram_block1a_21.port_a_last_address = 4095,
 		ram_block1a_21.port_a_logical_ram_depth = 4096,
 		ram_block1a_21.port_a_logical_ram_width = 32,
+		ram_block1a_21.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_21.power_up_uninitialized = "false",
 		ram_block1a_21.ram_block_type = "AUTO",
 		ram_block1a_21.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_22
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[22]}),
 	.portadataout(wire_ram_block1a_22portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1435,8 +1421,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1457,14 +1441,11 @@ module  imem_altsyncram
 		ram_block1a_22.clk0_input_clock_enable = "none",
 		ram_block1a_22.clk0_output_clock_enable = "none",
 		ram_block1a_22.connectivity_checking = "OFF",
-		ram_block1a_22.init_file = "imem.mif",
-		ram_block1a_22.init_file_layout = "port_a",
 		ram_block1a_22.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_22.mem_init0 = 2048'h0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003662B1CA,
-		ram_block1a_22.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_22.operation_mode = "rom",
-		ram_block1a_22.port_a_address_clear = "none",
+		ram_block1a_22.operation_mode = "single_port",
 		ram_block1a_22.port_a_address_width = 12,
+		ram_block1a_22.port_a_byte_enable_mask_width = 1,
+		ram_block1a_22.port_a_byte_size = 1,
 		ram_block1a_22.port_a_data_out_clear = "none",
 		ram_block1a_22.port_a_data_out_clock = "clock0",
 		ram_block1a_22.port_a_data_width = 1,
@@ -1473,14 +1454,18 @@ module  imem_altsyncram
 		ram_block1a_22.port_a_last_address = 4095,
 		ram_block1a_22.port_a_logical_ram_depth = 4096,
 		ram_block1a_22.port_a_logical_ram_width = 32,
+		ram_block1a_22.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_22.power_up_uninitialized = "false",
 		ram_block1a_22.ram_block_type = "AUTO",
 		ram_block1a_22.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_23
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[23]}),
 	.portadataout(wire_ram_block1a_23portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1495,8 +1480,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1517,14 +1500,11 @@ module  imem_altsyncram
 		ram_block1a_23.clk0_input_clock_enable = "none",
 		ram_block1a_23.clk0_output_clock_enable = "none",
 		ram_block1a_23.connectivity_checking = "OFF",
-		ram_block1a_23.init_file = "imem.mif",
-		ram_block1a_23.init_file_layout = "port_a",
 		ram_block1a_23.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_23.mem_init0 = 2048'h0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002C24E26C,
-		ram_block1a_23.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_23.operation_mode = "rom",
-		ram_block1a_23.port_a_address_clear = "none",
+		ram_block1a_23.operation_mode = "single_port",
 		ram_block1a_23.port_a_address_width = 12,
+		ram_block1a_23.port_a_byte_enable_mask_width = 1,
+		ram_block1a_23.port_a_byte_size = 1,
 		ram_block1a_23.port_a_data_out_clear = "none",
 		ram_block1a_23.port_a_data_out_clock = "clock0",
 		ram_block1a_23.port_a_data_width = 1,
@@ -1533,14 +1513,18 @@ module  imem_altsyncram
 		ram_block1a_23.port_a_last_address = 4095,
 		ram_block1a_23.port_a_logical_ram_depth = 4096,
 		ram_block1a_23.port_a_logical_ram_width = 32,
+		ram_block1a_23.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_23.power_up_uninitialized = "false",
 		ram_block1a_23.ram_block_type = "AUTO",
 		ram_block1a_23.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_24
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[24]}),
 	.portadataout(wire_ram_block1a_24portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1555,8 +1539,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1577,14 +1559,11 @@ module  imem_altsyncram
 		ram_block1a_24.clk0_input_clock_enable = "none",
 		ram_block1a_24.clk0_output_clock_enable = "none",
 		ram_block1a_24.connectivity_checking = "OFF",
-		ram_block1a_24.init_file = "imem.mif",
-		ram_block1a_24.init_file_layout = "port_a",
 		ram_block1a_24.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_24.mem_init0 = 2048'h0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000318FC70,
-		ram_block1a_24.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_24.operation_mode = "rom",
-		ram_block1a_24.port_a_address_clear = "none",
+		ram_block1a_24.operation_mode = "single_port",
 		ram_block1a_24.port_a_address_width = 12,
+		ram_block1a_24.port_a_byte_enable_mask_width = 1,
+		ram_block1a_24.port_a_byte_size = 1,
 		ram_block1a_24.port_a_data_out_clear = "none",
 		ram_block1a_24.port_a_data_out_clock = "clock0",
 		ram_block1a_24.port_a_data_width = 1,
@@ -1593,14 +1572,18 @@ module  imem_altsyncram
 		ram_block1a_24.port_a_last_address = 4095,
 		ram_block1a_24.port_a_logical_ram_depth = 4096,
 		ram_block1a_24.port_a_logical_ram_width = 32,
+		ram_block1a_24.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_24.power_up_uninitialized = "false",
 		ram_block1a_24.ram_block_type = "AUTO",
 		ram_block1a_24.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_25
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[25]}),
 	.portadataout(wire_ram_block1a_25portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1615,8 +1598,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1637,14 +1618,11 @@ module  imem_altsyncram
 		ram_block1a_25.clk0_input_clock_enable = "none",
 		ram_block1a_25.clk0_output_clock_enable = "none",
 		ram_block1a_25.connectivity_checking = "OFF",
-		ram_block1a_25.init_file = "imem.mif",
-		ram_block1a_25.init_file_layout = "port_a",
 		ram_block1a_25.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_25.mem_init0 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003272700,
-		ram_block1a_25.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_25.operation_mode = "rom",
-		ram_block1a_25.port_a_address_clear = "none",
+		ram_block1a_25.operation_mode = "single_port",
 		ram_block1a_25.port_a_address_width = 12,
+		ram_block1a_25.port_a_byte_enable_mask_width = 1,
+		ram_block1a_25.port_a_byte_size = 1,
 		ram_block1a_25.port_a_data_out_clear = "none",
 		ram_block1a_25.port_a_data_out_clock = "clock0",
 		ram_block1a_25.port_a_data_width = 1,
@@ -1653,14 +1631,18 @@ module  imem_altsyncram
 		ram_block1a_25.port_a_last_address = 4095,
 		ram_block1a_25.port_a_logical_ram_depth = 4096,
 		ram_block1a_25.port_a_logical_ram_width = 32,
+		ram_block1a_25.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_25.power_up_uninitialized = "false",
 		ram_block1a_25.ram_block_type = "AUTO",
 		ram_block1a_25.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_26
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[26]}),
 	.portadataout(wire_ram_block1a_26portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1675,8 +1657,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1697,14 +1677,11 @@ module  imem_altsyncram
 		ram_block1a_26.clk0_input_clock_enable = "none",
 		ram_block1a_26.clk0_output_clock_enable = "none",
 		ram_block1a_26.connectivity_checking = "OFF",
-		ram_block1a_26.init_file = "imem.mif",
-		ram_block1a_26.init_file_layout = "port_a",
 		ram_block1a_26.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_26.mem_init0 = 2048'h0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003FB7D800,
-		ram_block1a_26.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_26.operation_mode = "rom",
-		ram_block1a_26.port_a_address_clear = "none",
+		ram_block1a_26.operation_mode = "single_port",
 		ram_block1a_26.port_a_address_width = 12,
+		ram_block1a_26.port_a_byte_enable_mask_width = 1,
+		ram_block1a_26.port_a_byte_size = 1,
 		ram_block1a_26.port_a_data_out_clear = "none",
 		ram_block1a_26.port_a_data_out_clock = "clock0",
 		ram_block1a_26.port_a_data_width = 1,
@@ -1713,14 +1690,18 @@ module  imem_altsyncram
 		ram_block1a_26.port_a_last_address = 4095,
 		ram_block1a_26.port_a_logical_ram_depth = 4096,
 		ram_block1a_26.port_a_logical_ram_width = 32,
+		ram_block1a_26.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_26.power_up_uninitialized = "false",
 		ram_block1a_26.ram_block_type = "AUTO",
 		ram_block1a_26.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_27
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[27]}),
 	.portadataout(wire_ram_block1a_27portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1735,8 +1716,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1757,14 +1736,11 @@ module  imem_altsyncram
 		ram_block1a_27.clk0_input_clock_enable = "none",
 		ram_block1a_27.clk0_output_clock_enable = "none",
 		ram_block1a_27.connectivity_checking = "OFF",
-		ram_block1a_27.init_file = "imem.mif",
-		ram_block1a_27.init_file_layout = "port_a",
 		ram_block1a_27.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_27.mem_init0 = 2048'h000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007808BA,
-		ram_block1a_27.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_27.operation_mode = "rom",
-		ram_block1a_27.port_a_address_clear = "none",
+		ram_block1a_27.operation_mode = "single_port",
 		ram_block1a_27.port_a_address_width = 12,
+		ram_block1a_27.port_a_byte_enable_mask_width = 1,
+		ram_block1a_27.port_a_byte_size = 1,
 		ram_block1a_27.port_a_data_out_clear = "none",
 		ram_block1a_27.port_a_data_out_clock = "clock0",
 		ram_block1a_27.port_a_data_width = 1,
@@ -1773,14 +1749,18 @@ module  imem_altsyncram
 		ram_block1a_27.port_a_last_address = 4095,
 		ram_block1a_27.port_a_logical_ram_depth = 4096,
 		ram_block1a_27.port_a_logical_ram_width = 32,
+		ram_block1a_27.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_27.power_up_uninitialized = "false",
 		ram_block1a_27.ram_block_type = "AUTO",
 		ram_block1a_27.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_28
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[28]}),
 	.portadataout(wire_ram_block1a_28portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1795,8 +1775,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1817,14 +1795,11 @@ module  imem_altsyncram
 		ram_block1a_28.clk0_input_clock_enable = "none",
 		ram_block1a_28.clk0_output_clock_enable = "none",
 		ram_block1a_28.connectivity_checking = "OFF",
-		ram_block1a_28.init_file = "imem.mif",
-		ram_block1a_28.init_file_layout = "port_a",
 		ram_block1a_28.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_28.mem_init0 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000580000,
-		ram_block1a_28.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_28.operation_mode = "rom",
-		ram_block1a_28.port_a_address_clear = "none",
+		ram_block1a_28.operation_mode = "single_port",
 		ram_block1a_28.port_a_address_width = 12,
+		ram_block1a_28.port_a_byte_enable_mask_width = 1,
+		ram_block1a_28.port_a_byte_size = 1,
 		ram_block1a_28.port_a_data_out_clear = "none",
 		ram_block1a_28.port_a_data_out_clock = "clock0",
 		ram_block1a_28.port_a_data_width = 1,
@@ -1833,14 +1808,18 @@ module  imem_altsyncram
 		ram_block1a_28.port_a_last_address = 4095,
 		ram_block1a_28.port_a_logical_ram_depth = 4096,
 		ram_block1a_28.port_a_logical_ram_width = 32,
+		ram_block1a_28.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_28.power_up_uninitialized = "false",
 		ram_block1a_28.ram_block_type = "AUTO",
 		ram_block1a_28.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_29
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[29]}),
 	.portadataout(wire_ram_block1a_29portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1855,8 +1834,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1877,14 +1854,11 @@ module  imem_altsyncram
 		ram_block1a_29.clk0_input_clock_enable = "none",
 		ram_block1a_29.clk0_output_clock_enable = "none",
 		ram_block1a_29.connectivity_checking = "OFF",
-		ram_block1a_29.init_file = "imem.mif",
-		ram_block1a_29.init_file_layout = "port_a",
 		ram_block1a_29.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_29.mem_init0 = 2048'h000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007808BA,
-		ram_block1a_29.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_29.operation_mode = "rom",
-		ram_block1a_29.port_a_address_clear = "none",
+		ram_block1a_29.operation_mode = "single_port",
 		ram_block1a_29.port_a_address_width = 12,
+		ram_block1a_29.port_a_byte_enable_mask_width = 1,
+		ram_block1a_29.port_a_byte_size = 1,
 		ram_block1a_29.port_a_data_out_clear = "none",
 		ram_block1a_29.port_a_data_out_clock = "clock0",
 		ram_block1a_29.port_a_data_width = 1,
@@ -1893,14 +1867,18 @@ module  imem_altsyncram
 		ram_block1a_29.port_a_last_address = 4095,
 		ram_block1a_29.port_a_logical_ram_depth = 4096,
 		ram_block1a_29.port_a_logical_ram_width = 32,
+		ram_block1a_29.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_29.power_up_uninitialized = "false",
 		ram_block1a_29.ram_block_type = "AUTO",
 		ram_block1a_29.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_30
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[30]}),
 	.portadataout(wire_ram_block1a_30portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1915,8 +1893,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1937,14 +1913,11 @@ module  imem_altsyncram
 		ram_block1a_30.clk0_input_clock_enable = "none",
 		ram_block1a_30.clk0_output_clock_enable = "none",
 		ram_block1a_30.connectivity_checking = "OFF",
-		ram_block1a_30.init_file = "imem.mif",
-		ram_block1a_30.init_file_layout = "port_a",
 		ram_block1a_30.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_30.mem_init0 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007800000,
-		ram_block1a_30.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_30.operation_mode = "rom",
-		ram_block1a_30.port_a_address_clear = "none",
+		ram_block1a_30.operation_mode = "single_port",
 		ram_block1a_30.port_a_address_width = 12,
+		ram_block1a_30.port_a_byte_enable_mask_width = 1,
+		ram_block1a_30.port_a_byte_size = 1,
 		ram_block1a_30.port_a_data_out_clear = "none",
 		ram_block1a_30.port_a_data_out_clock = "clock0",
 		ram_block1a_30.port_a_data_width = 1,
@@ -1953,14 +1926,18 @@ module  imem_altsyncram
 		ram_block1a_30.port_a_last_address = 4095,
 		ram_block1a_30.port_a_logical_ram_depth = 4096,
 		ram_block1a_30.port_a_logical_ram_width = 32,
+		ram_block1a_30.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_30.power_up_uninitialized = "false",
 		ram_block1a_30.ram_block_type = "AUTO",
 		ram_block1a_30.lpm_type = "cycloneive_ram_block";
 	cycloneive_ram_block   ram_block1a_31
 	( 
 	.clk0(clock0),
 	.portaaddr({address_a_wire[11:0]}),
+	.portadatain({data_a[31]}),
 	.portadataout(wire_ram_block1a_31portadataout[0:0]),
 	.portare(1'b1),
+	.portawe(wren_a),
 	.portbdataout()
 	`ifndef FORMAL_VERIFICATION
 	// synopsys translate_off
@@ -1975,8 +1952,6 @@ module  imem_altsyncram
 	.ena3(1'b1),
 	.portaaddrstall(1'b0),
 	.portabyteenamasks({1{1'b1}}),
-	.portadatain({1{1'b0}}),
-	.portawe(1'b0),
 	.portbaddr({1{1'b0}}),
 	.portbaddrstall(1'b0),
 	.portbbyteenamasks({1{1'b1}}),
@@ -1997,14 +1972,11 @@ module  imem_altsyncram
 		ram_block1a_31.clk0_input_clock_enable = "none",
 		ram_block1a_31.clk0_output_clock_enable = "none",
 		ram_block1a_31.connectivity_checking = "OFF",
-		ram_block1a_31.init_file = "imem.mif",
-		ram_block1a_31.init_file_layout = "port_a",
 		ram_block1a_31.logical_ram_name = "ALTSYNCRAM",
-		ram_block1a_31.mem_init0 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_31.mem_init1 = 2048'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-		ram_block1a_31.operation_mode = "rom",
-		ram_block1a_31.port_a_address_clear = "none",
+		ram_block1a_31.operation_mode = "single_port",
 		ram_block1a_31.port_a_address_width = 12,
+		ram_block1a_31.port_a_byte_enable_mask_width = 1,
+		ram_block1a_31.port_a_byte_size = 1,
 		ram_block1a_31.port_a_data_out_clear = "none",
 		ram_block1a_31.port_a_data_out_clock = "clock0",
 		ram_block1a_31.port_a_data_width = 1,
@@ -2013,25 +1985,31 @@ module  imem_altsyncram
 		ram_block1a_31.port_a_last_address = 4095,
 		ram_block1a_31.port_a_logical_ram_depth = 4096,
 		ram_block1a_31.port_a_logical_ram_width = 32,
+		ram_block1a_31.port_a_read_during_write_mode = "new_data_no_nbe_read",
+		ram_block1a_31.power_up_uninitialized = "false",
 		ram_block1a_31.ram_block_type = "AUTO",
 		ram_block1a_31.lpm_type = "cycloneive_ram_block";
 	assign
 		address_a_wire = address_a,
 		q_a = {wire_ram_block1a_31portadataout[0], wire_ram_block1a_30portadataout[0], wire_ram_block1a_29portadataout[0], wire_ram_block1a_28portadataout[0], wire_ram_block1a_27portadataout[0], wire_ram_block1a_26portadataout[0], wire_ram_block1a_25portadataout[0], wire_ram_block1a_24portadataout[0], wire_ram_block1a_23portadataout[0], wire_ram_block1a_22portadataout[0], wire_ram_block1a_21portadataout[0], wire_ram_block1a_20portadataout[0], wire_ram_block1a_19portadataout[0], wire_ram_block1a_18portadataout[0], wire_ram_block1a_17portadataout[0], wire_ram_block1a_16portadataout[0], wire_ram_block1a_15portadataout[0], wire_ram_block1a_14portadataout[0], wire_ram_block1a_13portadataout[0], wire_ram_block1a_12portadataout[0], wire_ram_block1a_11portadataout[0], wire_ram_block1a_10portadataout[0], wire_ram_block1a_9portadataout[0], wire_ram_block1a_8portadataout[0], wire_ram_block1a_7portadataout[0], wire_ram_block1a_6portadataout[0], wire_ram_block1a_5portadataout[0], wire_ram_block1a_4portadataout[0], wire_ram_block1a_3portadataout[0], wire_ram_block1a_2portadataout[0], wire_ram_block1a_1portadataout[0], wire_ram_block1a_0portadataout[0]};
-endmodule //imem_altsyncram
+endmodule //dmem_altsyncram
 //VALID FILE
 
 
 // synopsys translate_off
 `timescale 1 ps / 1 ps
 // synopsys translate_on
-module imem (
+module dmem (
 	address,
 	clock,
+	data,
+	wren,
 	q)/* synthesis synthesis_clearbox = 1 */;
 
 	input	[11:0]  address;
 	input	  clock;
+	input	[31:0]  data;
+	input	  wren;
 	output	[31:0]  q;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
@@ -2044,9 +2022,11 @@ module imem (
 	wire [31:0] sub_wire0;
 	wire [31:0] q = sub_wire0[31:0];
 
-	imem_altsyncram	imem_altsyncram_component (
+	dmem_altsyncram	dmem_altsyncram_component (
 				.address_a (address),
 				.clock0 (clock),
+				.data_a (data),
+				.wren_a (wren),
 				.q_a (sub_wire0));
 
 endmodule
@@ -2057,13 +2037,15 @@ endmodule
 // Retrieval info: PRIVATE: ADDRESSSTALL_A NUMERIC "0"
 // Retrieval info: PRIVATE: AclrAddr NUMERIC "0"
 // Retrieval info: PRIVATE: AclrByte NUMERIC "0"
+// Retrieval info: PRIVATE: AclrData NUMERIC "0"
 // Retrieval info: PRIVATE: AclrOutput NUMERIC "0"
 // Retrieval info: PRIVATE: BYTE_ENABLE NUMERIC "0"
 // Retrieval info: PRIVATE: BYTE_SIZE NUMERIC "8"
-// Retrieval info: PRIVATE: BlankMemory NUMERIC "0"
+// Retrieval info: PRIVATE: BlankMemory NUMERIC "1"
 // Retrieval info: PRIVATE: CLOCK_ENABLE_INPUT_A NUMERIC "0"
 // Retrieval info: PRIVATE: CLOCK_ENABLE_OUTPUT_A NUMERIC "0"
 // Retrieval info: PRIVATE: Clken NUMERIC "0"
+// Retrieval info: PRIVATE: DataBusSeparated NUMERIC "1"
 // Retrieval info: PRIVATE: IMPLEMENT_IN_LES NUMERIC "0"
 // Retrieval info: PRIVATE: INIT_FILE_LAYOUT STRING "PORT_A"
 // Retrieval info: PRIVATE: INIT_TO_SIM_X NUMERIC "0"
@@ -2071,43 +2053,50 @@ endmodule
 // Retrieval info: PRIVATE: JTAG_ENABLED NUMERIC "0"
 // Retrieval info: PRIVATE: JTAG_ID STRING "NONE"
 // Retrieval info: PRIVATE: MAXIMUM_DEPTH NUMERIC "0"
-// Retrieval info: PRIVATE: MIFfilename STRING "imem.mif"
+// Retrieval info: PRIVATE: MIFfilename STRING ""
 // Retrieval info: PRIVATE: NUMWORDS_A NUMERIC "4096"
 // Retrieval info: PRIVATE: RAM_BLOCK_TYPE NUMERIC "0"
+// Retrieval info: PRIVATE: READ_DURING_WRITE_MODE_PORT_A NUMERIC "3"
 // Retrieval info: PRIVATE: RegAddr NUMERIC "1"
+// Retrieval info: PRIVATE: RegData NUMERIC "1"
 // Retrieval info: PRIVATE: RegOutput NUMERIC "1"
 // Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX STRING "1"
 // Retrieval info: PRIVATE: SingleClock NUMERIC "1"
-// Retrieval info: PRIVATE: UseDQRAM NUMERIC "0"
+// Retrieval info: PRIVATE: UseDQRAM NUMERIC "1"
+// Retrieval info: PRIVATE: WRCONTROL_ACLR_A NUMERIC "0"
 // Retrieval info: PRIVATE: WidthAddr NUMERIC "12"
 // Retrieval info: PRIVATE: WidthData NUMERIC "32"
 // Retrieval info: PRIVATE: rden NUMERIC "0"
 // Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
-// Retrieval info: CONSTANT: ADDRESS_ACLR_A STRING "NONE"
 // Retrieval info: CONSTANT: CLOCK_ENABLE_INPUT_A STRING "BYPASS"
 // Retrieval info: CONSTANT: CLOCK_ENABLE_OUTPUT_A STRING "BYPASS"
-// Retrieval info: CONSTANT: INIT_FILE STRING "imem.mif"
 // Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "Cyclone IV E"
 // Retrieval info: CONSTANT: LPM_HINT STRING "ENABLE_RUNTIME_MOD=NO"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "altsyncram"
 // Retrieval info: CONSTANT: NUMWORDS_A NUMERIC "4096"
-// Retrieval info: CONSTANT: OPERATION_MODE STRING "ROM"
+// Retrieval info: CONSTANT: OPERATION_MODE STRING "SINGLE_PORT"
 // Retrieval info: CONSTANT: OUTDATA_ACLR_A STRING "NONE"
 // Retrieval info: CONSTANT: OUTDATA_REG_A STRING "CLOCK0"
+// Retrieval info: CONSTANT: POWER_UP_UNINITIALIZED STRING "FALSE"
+// Retrieval info: CONSTANT: READ_DURING_WRITE_MODE_PORT_A STRING "NEW_DATA_NO_NBE_READ"
 // Retrieval info: CONSTANT: WIDTHAD_A NUMERIC "12"
 // Retrieval info: CONSTANT: WIDTH_A NUMERIC "32"
 // Retrieval info: CONSTANT: WIDTH_BYTEENA_A NUMERIC "1"
 // Retrieval info: USED_PORT: address 0 0 12 0 INPUT NODEFVAL "address[11..0]"
 // Retrieval info: USED_PORT: clock 0 0 0 0 INPUT VCC "clock"
+// Retrieval info: USED_PORT: data 0 0 32 0 INPUT NODEFVAL "data[31..0]"
 // Retrieval info: USED_PORT: q 0 0 32 0 OUTPUT NODEFVAL "q[31..0]"
+// Retrieval info: USED_PORT: wren 0 0 0 0 INPUT NODEFVAL "wren"
 // Retrieval info: CONNECT: @address_a 0 0 12 0 address 0 0 12 0
 // Retrieval info: CONNECT: @clock0 0 0 0 0 clock 0 0 0 0
+// Retrieval info: CONNECT: @data_a 0 0 32 0 data 0 0 32 0
+// Retrieval info: CONNECT: @wren_a 0 0 0 0 wren 0 0 0 0
 // Retrieval info: CONNECT: q 0 0 32 0 @q_a 0 0 32 0
-// Retrieval info: GEN_FILE: TYPE_NORMAL imem.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL imem.inc FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL imem.cmp FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL imem.bsf TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL imem_inst.v FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL imem_bb.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL imem_syn.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL dmem.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL dmem.inc FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL dmem.cmp FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL dmem.bsf TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL dmem_inst.v FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL dmem_bb.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL dmem_syn.v TRUE
 // Retrieval info: LIB_FILE: altera_mf
