@@ -31,7 +31,7 @@ In this checkpoint, we add more control bit to accommodate new functionalities, 
 ## The updated design of the control unit
 
 To accommodate new design and add more functionalities, we have a little adjustment to the logic compared with the last time, and add specific logic to control bit that are added this time.
-For details of the logic, please also see the specification last time [here](../Project4/README)
+For details of the logic, please also see the specification last time [here](../Project4/README.md)
 
 - **Rwe**: output 1 for all R-type instruction and `addi (00101)`, `lw (01000)`, **`jal(*new)(00011)`**, **`setx(*new)(10101)`**
 $$
