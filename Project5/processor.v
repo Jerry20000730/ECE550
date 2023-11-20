@@ -114,7 +114,7 @@ module processor(
 	 assign pc_T = {5'b00000, q_imem[26:0]}; // pc_T = opcode[26: 0]
 	 
 	 // choose the new_pc according to opcode
-	 assign is_pc_1_or_1_n = (isNotEqual & is_bne) | (~isLessThan & is_blt);
+	 assign is_pc_1_or_1_n = (isNotEqual & is_bne) | (~isLessThan & isNotEqual & is_blt);
 	 assign is_pc_T = is_j_jal | (is_bex & isNotEqual);
 	 assign pc_select_layer1 = is_pc_1_or_1_n ? pc_1_n : pc_1;
 	 assign pc_select_layer2 = is_pc_T ? pc_T : pc_select_layer1;

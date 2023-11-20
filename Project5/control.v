@@ -47,8 +47,8 @@ module control(opcode, ALUop, Rwe, Rdst, ALUinB, isRType, overflowSignal, is_add
 	assign is_j_jal = is_j | is_jal;
 	
 	// is_bex
-	// bex: 10100
-	assign is_bex = opcode[4] & ~opcode[3] & opcode[2] & ~opcode[1] & ~opcode[0];
+	// bex: 10110
+	assign is_bex = opcode[4] & ~opcode[3] & opcode[2] & opcode[1] & ~opcode[0];
 	
 	// is_jr
 	// jr: 00100

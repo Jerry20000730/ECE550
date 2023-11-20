@@ -19,7 +19,7 @@ module processor_tb();
     #100
         reset = 1'b0;
 
-    #3200
+    #100000
         $stop;
     end
 
